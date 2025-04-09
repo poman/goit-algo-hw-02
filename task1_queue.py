@@ -1,5 +1,6 @@
 import queue
 import random
+import time
 
 request_queue = queue.Queue()
 
@@ -15,13 +16,26 @@ def process_request():
     else:
         print("Черга пуста. Немає заявок для обробки.")
 
+def auto_mode():
+    print("Автоматичний режим увімкнено. Натисніть Ctrl+C для виходу.")
+    try:
+        while True:
+            generate_request()
+            time.sleep(1)
+            process_request()
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\nАвтоматичний режим завершено.")
+
 def main():
     while True:
-        user_input = input("Натисніть 'n' для створення заявки, 'p' для обробки заявки, або 'q' для виходу: ").strip().lower()
+        user_input = input("Натисніть 'n' для створення заявки, 'p' для обробки заявки, 'a' для автоматичного режиму, або 'q' для виходу: ").strip().lower()
         if user_input == 'n':
             generate_request()
         elif user_input == 'p':
             process_request()
+        elif user_input == 'a':
+            auto_mode()
         elif user_input == 'q':
             print("Програма завершена.")
             break
